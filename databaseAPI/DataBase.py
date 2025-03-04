@@ -66,6 +66,7 @@ class DataBase:
             log.info(f"[POSTGRESQL]: DB {newDbName} created.")
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed create {newDbName} DB.\n {_ex}")
+    
     def connect(self, db = dbname):
         try:
             self.__connection = psycopg2.connect(
