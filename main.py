@@ -1,12 +1,18 @@
 from databaseAPI import *
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+from coreGUI import interface
 
-new_db = DataBase()
 
 
 
 
-new_db.initUser("serega1", "Admin", "123", "REGISTRY")
-new_db.createDataBase("boomers")
-new_db.connect("boomers")
+def main():
+    app = QApplication(sys.argv)
+    window = interface.StartWindow()
+    window.show()
+    sys.exit(app.exec_())
 
+if __name__ == "__main__":
+    main()
 
