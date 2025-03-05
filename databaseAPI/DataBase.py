@@ -113,6 +113,14 @@ class DataBase:
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed update table. \n {_ex}")
 
+    def delete(self, brand):
+        try:
+            self.__cursor.execute(delete_sql)
+            self.__cursor.callproc("delete_sql", (brand, ))
+            log.info("[POSTGRESQL]: Successful delete tuples.")
+        except psycopg2.Error as _ex:
+            log.error(f"[POSTGRESQL]: Failed delete tuples. \n {_ex}")
+
     def connect(self, db = dbname):
         try:
             self.__connection = psycopg2.connect(
