@@ -7,9 +7,9 @@ from PyQt5.QtCore import Qt
 class StartWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.setupUI()
 
-    def initUI(self):
+    def setupUI(self):
         
         self.setWindowTitle("carDB")
         self.setGeometry(500, 200, 800, 500)
@@ -100,8 +100,13 @@ class StartWindow(QMainWindow):
         main_layout.addStretch(1)
         
         
-    
-        
+class OpeninigDataBaseWindow(QMainWindow):
 
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
 
+    def setupUI(self):
+        self.setWindowTitle("carDB")
+        self.setGeometry(500, 200, 800, 500)
         

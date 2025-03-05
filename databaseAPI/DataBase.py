@@ -26,6 +26,7 @@ class DataBase:
                 self.__user = username
                 self.__password = passwd
                 self.__role = role
+                log.info(f"Log in successfuly: {self.__user}, {self.__role}")
             self.__connection = None
             
         except psycopg2.Error as _ex:
