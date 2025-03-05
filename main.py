@@ -7,6 +7,7 @@ from coreGUI import interface
 
 
 
+
 def main():
     app = QApplication(sys.argv)
     window = interface.StartWindow()
