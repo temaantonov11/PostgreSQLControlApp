@@ -24,6 +24,8 @@ class DBClient:
         self.ToolsWindow.clearButton.clicked.connect(self.ClearMenu_button_clicked)
         self.ToolsWindow.updateButton.clicked.connect(self.UpdateMenu_button_clicked)
         self.ToolsWindow.insertButton.clicked.connect(self.InsertMenu_button_clicked)
+        self.InsertWindow.back_button.clicked.connect(self.Back)
+        self.InsertWindow.insert_button.clicked.connect(self.insert_button_clicked)
 
         
     
@@ -63,6 +65,26 @@ class DBClient:
 
         self.Open(self.ToolsWindow)
 
+    def Back(self):
+        self.currentWindow.hide()
+        self.previousWindow.show()
+        self.currentWindow = self.previousWindow
+
+    def insert_button_clicked(self):
+        id = self.InsertWindow.id_field.text()
+        brand = self.InsertWindow.brand_field.text()
+        model = self.InsertWindow.model_field.text()
+        year = self.InsertWindow.year_field.text()
+        color = self.InsertWindow.color_field.text()
+
+        self.db_client.insert(id, brand, model, year, color)
+
+        self.InsertWindow.id_field.clear()
+        self.InsertWindow.brand_field.clear()
+        self.InsertWindow.model_field.clear()
+        self.InsertWindow.year_field.clear()
+        self.InsertWindow.color_field.clear()
+
     def SearchMenu_button_clicked(self):
         self.Open(self.SeachWindow)
 
@@ -76,7 +98,7 @@ class DBClient:
         self.Open(self.ClearWindow)
 
     def InsertMenu_button_clicked(self):
-        self.Open(self.UpdateWindow)
+        self.Open(self.InsertWindow)
             
 
     def Open(self, Window):
@@ -84,7 +106,7 @@ class DBClient:
         self.currentWindow.hide()
         self.previousWindow = self.currentWindow
         self.currentWindow = Window        
-    
+
 def main():
     client = DBClient()
     client.run()

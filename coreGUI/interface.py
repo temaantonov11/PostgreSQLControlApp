@@ -231,7 +231,41 @@ class InsertWindow(QMainWindow):
         self.setWindowTitle("carDB")
         self.setGeometry(500, 200, 800, 500)
 
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        
+        main_layout = QVBoxLayout(central_widget)
 
+        self.id_field = QLineEdit()
+        self.brand_field = QLineEdit()
+        self.model_field = QLineEdit()
+        self.year_field = QLineEdit()
+        self.color_field = QLineEdit()
+
+        self.insert_button = QPushButton("INSERT")
+        self.back_button = QPushButton("Back")
+
+        field_layout = QHBoxLayout()
+        field_layout.setSpacing(0)
+        field_layout.setContentsMargins(0, 0, 0, 0)
+
+        field_layout.addWidget(QLabel("ID: "))
+        field_layout.addWidget(self.id_field)
+        field_layout.addWidget(QLabel("BRAND: "))
+        field_layout.addWidget(self.brand_field)
+        field_layout.addWidget(QLabel("MODEL: "))
+        field_layout.addWidget(self.model_field)
+        field_layout.addWidget(QLabel("YEAR: "))
+        field_layout.addWidget(self.year_field)
+        field_layout.addWidget(QLabel("COLOR: "))
+        field_layout.addWidget(self.color_field)
+
+        main_layout.addLayout(field_layout)
+        main_layout.addWidget(self.insert_button)
+        main_layout.addWidget(self.back_button)
+
+        field_layout.addStretch(1)
+        main_layout.addStretch(1)
 
 
 

@@ -77,6 +77,14 @@ class DataBase:
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed create table. \n {_ex}")
     
+    def insert(self, id, brand, model, year, color):
+        try:
+            self.__cursor.execute(insert_sql)
+            self.__cursor.execute("SELECT insert_car(%s, %s, %s, %s, %s);", (id, brand, model, year, color))
+            log.info("[POSTGRESQL]: sucessfull insert")
+        except psycopg2.Error as _ex:
+            log.error(f"[POSTGRESQL]: Failed insert. \n {_ex}")
+
     def connect(self, db = dbname):
         try:
             self.__connection = psycopg2.connect(
