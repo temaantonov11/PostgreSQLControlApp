@@ -109,4 +109,47 @@ class OpeninigDataBaseWindow(QMainWindow):
     def setupUI(self):
         self.setWindowTitle("carDB")
         self.setGeometry(500, 200, 800, 500)
+
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        
+        main_layout = QVBoxLayout(central_widget)
+
+        self.nameDB_field = QLineEdit()
+
+        self.openDB_radio = QRadioButton("Open DB")
+        self.createDB_radio = QRadioButton("Create DB")
+
+        self.start_button = QPushButton("Open DB")
+
+        self.actionDB_group = QButtonGroup()
+        self.actionDB_group.addButton(self.openDB_radio)
+        self.actionDB_group.addButton(self.createDB_radio)
+
+        field_layout = QHBoxLayout()
+        field_layout.setSpacing(0)
+        field_layout.setContentsMargins(0, 0, 0, 0)
+
+        radioButtons_layout = QHBoxLayout()
+        radioButtons_layout.setSpacing(0)
+        radioButtons_layout.setContentsMargins(0, 0, 0, 0)
+
+        field_layout.addWidget(QLabel('Database name: '))
+        field_layout.addWidget(self.nameDB_field)
+
+        radioButtons_layout.addWidget(self.openDB_radio)
+        radioButtons_layout.addWidget(self.createDB_radio)
+
+        main_layout.addLayout(field_layout)
+        main_layout.addLayout(radioButtons_layout)
+        main_layout.addWidget(self.start_button)
+
+        field_layout.addStretch(1)
+        radioButtons_layout.addStretch(1)
+        main_layout.addStretch(1)
+        
+
+
+
+
         
