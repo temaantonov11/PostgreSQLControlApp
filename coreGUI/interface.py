@@ -156,7 +156,83 @@ class ToolsWindow(QMainWindow):
         self.setupUI()
     
     def setupUI(self):
-        pass
+        
+        self.setWindowTitle("carDB")
+        self.setGeometry(500, 200, 800, 500)
+
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        
+        main_layout = QGridLayout(central_widget)
+
+        self.searchButton = QPushButton("Search")
+        self.deleteButton = QPushButton("Delete")
+        self.clearButton = QPushButton("Clear DB")
+        self.updateButton = QPushButton("Update")
+        self.insertButton = QPushButton("Insert")
+
+        main_layout.addWidget(self.searchButton, 0, 0)
+        main_layout.addWidget(self.deleteButton, 0, 1)
+        main_layout.addWidget(self.clearButton, 1, 0)
+        main_layout.addWidget(self.updateButton, 1, 1)
+        main_layout.addWidget(self.insertButton, 2, 0)
+
+class SearchWindow(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
+
+    def setupUI(self):
+        
+        self.setWindowTitle("carDB")
+        self.setGeometry(500, 200, 800, 500)
+
+class DeleteWindow(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
+
+    def setupUI(self):
+        
+        self.setWindowTitle("carDB")
+        self.setGeometry(500, 200, 800, 500)
+
+class ClearWindow(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
+    
+    def setupUI(self):
+
+        self.setWindowTitle("carDB")
+        self.setGeometry(500, 200, 800, 500)
+
+class UpdateWindow(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
+
+    def setupUI(self):
+
+        self.setWindowTitle("carDB")
+        self.setGeometry(500, 200, 800, 500)
+
+class InsertWindow(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
+
+    def setupUI(self):
+        self.setWindowTitle("carDB")
+        self.setGeometry(500, 200, 800, 500)
+
+
+
 
 
 

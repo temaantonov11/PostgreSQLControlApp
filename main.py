@@ -7,11 +7,29 @@ class DBClient:
     
     def __init__(self):
         self.app = QApplication(sys.argv)
+
         self.StartWindow = interface.StartWindow()
+        self.OpenWindow = interface.OpeninigDataBaseWindow()
+        self.ToolsWindow = interface.ToolsWindow()
+        self.SeachWindow = interface.SearchWindow()
+        self.DeleteWindow = interface.DeleteWindow()
+        self.ClearWindow = interface.ClearWindow()
+        self.InsertWindow = interface.InsertWindow()
+        self.UpdateWindow = interface.UpdateWindow()
+
         self.StartWindow.start_button.clicked.connect(self.login_button_clicked)
+        self.OpenWindow.start_button.clicked.connect(self.openDB_button_clicked)
+        self.ToolsWindow.searchButton.clicked.connect(self.SearchMenu_button_clicked)
+        self.ToolsWindow.deleteButton.clicked.connect(self.DeleteMenu_button_clicked)
+        self.ToolsWindow.clearButton.clicked.connect(self.ClearMenu_button_clicked)
+        self.ToolsWindow.updateButton.clicked.connect(self.UpdateMenu_button_clicked)
+        self.ToolsWindow.insertButton.clicked.connect(self.InsertMenu_button_clicked)
+
+        
     
     def run(self):
         self.StartWindow.show()
+        self.currentWindow = self.StartWindow
         sys.exit(self.app.exec_())
         
 
@@ -32,23 +50,40 @@ class DBClient:
 
         self.db_client = DataBase()
         self.db_client.initUser(username, role, password, status)
-        self.open_OpeninigDataBaseWindow()
+        self.Open(self.OpenWindow)
     
     def openDB_button_clicked(self):
         
-        nameDB = self.openWindow.nameDB_field.text()
+        nameDB = self.OpenWindow.nameDB_field.text()
 
-        if self.openWindow.openDB_radio.isChecked():
+        if self.OpenWindow.openDB_radio.isChecked():
             self.db_client.connect(nameDB)
         else:
             self.db_client.createDataBase(nameDB)
+
+        self.Open(self.ToolsWindow)
+
+    def SearchMenu_button_clicked(self):
+        self.Open(self.SeachWindow)
+
+    def DeleteMenu_button_clicked(self):
+        self.Open(self.DeleteWindow)
+
+    def UpdateMenu_button_clicked(self):
+        self.Open(self.UpdateWindow)
+
+    def ClearMenu_button_clicked(self):
+        self.Open(self.ClearWindow)
+
+    def InsertMenu_button_clicked(self):
+        self.Open(self.UpdateWindow)
             
 
-    def open_OpeninigDataBaseWindow(self):
-        self.openWindow = interface.OpeninigDataBaseWindow()
-        self.openWindow.start_button.clicked.connect(self.openDB_button_clicked)
-        self.openWindow.show()
-        self.StartWindow.hide()
+    def Open(self, Window):
+        Window.show()
+        self.currentWindow.hide()
+        self.previousWindow = self.currentWindow
+        self.currentWindow = Window        
 
 def main():
     client = DBClient()
