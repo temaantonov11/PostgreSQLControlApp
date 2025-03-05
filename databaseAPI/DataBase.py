@@ -2,6 +2,7 @@ import psycopg2
 import psycopg2.sql
 from logger import *
 from .config import host, port, user, dbname, password
+from .procedures import *
 
 class DataBase:
      
@@ -65,8 +66,16 @@ class DataBase:
             self.__disconnect()
             self.connect(newDbName)
             log.info(f"[POSTGRESQL]: DB {newDbName} created.")
+            self.__createTable()
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed create {newDbName} DB.\n {_ex}")
+
+    def __createTable(self):
+        try:
+            self.__cursor.execute(create_table_sql)
+            log.info("[POSTGRESQL]: Table created. ")
+        except psycopg2.Error as _ex:
+            log.error(f"[POSTGRESQL]: Failed create table. \n {_ex}")
     
     def connect(self, db = dbname):
         try:

@@ -84,7 +84,7 @@ class DBClient:
         self.currentWindow.hide()
         self.previousWindow = self.currentWindow
         self.currentWindow = Window        
-
+    
 def main():
     client = DBClient()
     client.run()
