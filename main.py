@@ -18,6 +18,7 @@ class DBClient:
         self.ClearWindow = interface.ClearWindow()
         self.InsertWindow = interface.InsertWindow()
         self.UpdateWindow = interface.UpdateWindow()
+        self.SelectResultWindow = interface.SelectResultWindow()
 
         self.StartWindow.start_button.clicked.connect(self.login_button_clicked)
         self.OpenWindow.start_button.clicked.connect(self.openDB_button_clicked)
@@ -26,6 +27,7 @@ class DBClient:
         self.ToolsWindow.clearButton.clicked.connect(self.ClearMenu_button_clicked)
         self.ToolsWindow.updateButton.clicked.connect(self.UpdateMenu_button_clicked)
         self.ToolsWindow.insertButton.clicked.connect(self.InsertMenu_button_clicked)
+        self.ToolsWindow.selectButton.clicked.connect(self.SelectMenu_button_clicked)
         self.InsertWindow.back_button.clicked.connect(self.Back)
         self.InsertWindow.insert_button.clicked.connect(self.insert_button_clicked)
         self.SearchWindow.search_button.clicked.connect(self.search_button_clicked)
@@ -35,6 +37,8 @@ class DBClient:
         self.UpdateWindow.update_button.clicked.connect(self.update_button_clicked)
         self.DeleteWindow.delete_button.clicked.connect(self.delete_button_clicked)
         self.DeleteWindow.back_button.clicked.connect(self.Back)
+        self.SelectResultWindow.back_button.clicked.connect(self.Back)
+        
 
         
     
@@ -114,6 +118,19 @@ class DBClient:
 
         self.SearchWindow.nonkey_field.clear()
         self.Open(self.SearchResultWindow)
+
+    def SelectMenu_button_clicked(self):
+        
+        result = self.db_client.selectAll()
+
+        self.SelectResultWindow.result_table.setRowCount(0)
+
+        for row_number, row_data in enumerate(result):
+            self.SelectResultWindow.result_table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.SelectResultWindow.result_table.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+        
+        self.Open(self.SelectResultWindow)
     
     def update_button_clicked(self):
         

@@ -88,8 +88,14 @@ $$ LANGUAGE plpgsql;
 
 selectall_sql = """
 CREATE OR REPLACE FUNCTION select_sql()
-RETURNS VOID AS $$
+RETURNS TABLE (
+    id INT,
+    brand VARCHAR(20),
+    model VARCHAR(20),
+    year INT,
+    color VARCHAR(20)) AS $$
 BEGIN
+    RETURN QUERY
     SELECT * FROM cars;
 END;
 $$ LANGUAGE plpgsql;

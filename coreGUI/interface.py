@@ -170,12 +170,14 @@ class ToolsWindow(QMainWindow):
         self.clearButton = QPushButton("Clear DB")
         self.updateButton = QPushButton("Update")
         self.insertButton = QPushButton("Insert")
+        self.selectButton = QPushButton("Select all")
 
         main_layout.addWidget(self.searchButton, 0, 0)
         main_layout.addWidget(self.deleteButton, 0, 1)
         main_layout.addWidget(self.clearButton, 1, 0)
         main_layout.addWidget(self.updateButton, 1, 1)
         main_layout.addWidget(self.insertButton, 2, 0)
+        main_layout.addWidget(self.selectButton, 2, 1)
 
 class SearchWindow(QMainWindow):
 
@@ -228,8 +230,29 @@ class SearchResultWindow(QMainWindow):
         main_layout.addWidget(self.back_button)
         main_layout.addStretch(1)
 
+class SelectResultWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
 
+    def setupUI(self):
+        self.setWindowTitle("carDB: SelectResult")
+        self.setGeometry(500, 200, 800, 500)
 
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        
+        main_layout = QVBoxLayout(central_widget)
+
+        self.result_table = QTableWidget(self)
+        self.result_table.setColumnCount(5)
+        self.result_table.setHorizontalHeaderLabels(["ID", "breand", "Model", "Year", "Color"])
+
+        self.back_button = QPushButton("Back")
+
+        main_layout.addWidget(self.result_table)
+        main_layout.addWidget(self.back_button)
+        main_layout.addStretch(1)
 
 class DeleteWindow(QMainWindow):
 
