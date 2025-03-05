@@ -242,6 +242,23 @@ class DeleteWindow(QMainWindow):
         self.setWindowTitle("carDB")
         self.setGeometry(500, 200, 800, 500)
 
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+
+        main_layout = QVBoxLayout()
+        
+        self.delete_field = QLineEdit()
+
+        self.delete_button = QPushButton("Delete")
+        self.back_button = QPushButton("Back")
+
+        main_layout.addWidget(QLabel("Brand: "))
+        main_layout.addWidget(self.delete_field)
+        main_layout.addWidget(self.delete_button)
+        main_layout.addWidget(self.back_button)
+
+        main_layout.addStretch(1)
+
 class ClearWindow(QMainWindow):
 
     def __init__(self):
@@ -263,6 +280,41 @@ class UpdateWindow(QMainWindow):
 
         self.setWindowTitle("carDB")
         self.setGeometry(500, 200, 800, 500)
+
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+
+        main_layout = QVBoxLayout(central_widget)
+
+        field_layout = QHBoxLayout()
+
+        self.id_field = QLineEdit()
+        self.brand_field = QLineEdit()
+        self.model_field = QLineEdit()
+        self.year_field = QLineEdit()
+        self.color_field = QLineEdit()
+
+        self.update_button = QPushButton("Update")
+        self.back_button = QPushButton("Back")
+
+        field_layout.addWidget(QLabel("ID: "))
+        field_layout.addWidget(self.id_field)
+        field_layout.addWidget(QLabel("BRAND: "))
+        field_layout.addWidget(self.brand_field)
+        field_layout.addWidget(QLabel("MODEL: "))
+        field_layout.addWidget(self.model_field)
+        field_layout.addWidget(QLabel("YEAR: "))
+        field_layout.addWidget(self.year_field)
+        field_layout.addWidget(QLabel("COLOR: "))
+        field_layout.addWidget(self.color_field)
+
+        main_layout.addLayout(field_layout)
+        main_layout.addWidget(self.update_button)
+        main_layout.addWidget(self.back_button)
+
+        field_layout.addStretch(1)
+        main_layout.addStretch(1)
+
 
 class InsertWindow(QMainWindow):
 
