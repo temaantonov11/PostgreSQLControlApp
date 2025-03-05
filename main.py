@@ -31,11 +31,22 @@ class DBClient:
             status = "REGISTRY"
 
         self.db_client = DataBase()
-        self.db_client.initUser(username, password, role, status)
+        self.db_client.initUser(username, role, password, status)
         self.open_OpeninigDataBaseWindow()
+    
+    def openDB_button_clicked(self):
+        
+        nameDB = self.openWindow.nameDB_field.text()
+
+        if self.openWindow.openDB_radio.isChecked():
+            self.db_client.connect(nameDB)
+        else:
+            self.db_client.createDataBase(nameDB)
+            
 
     def open_OpeninigDataBaseWindow(self):
         self.openWindow = interface.OpeninigDataBaseWindow()
+        self.openWindow.start_button.clicked.connect(self.openDB_button_clicked)
         self.openWindow.show()
         self.StartWindow.hide()
 

@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel,
 from PyQt5.QtCore import Qt
 
 class StartWindow(QMainWindow):
+    
     def __init__(self):
         super().__init__()
         self.setupUI()
@@ -147,8 +148,15 @@ class OpeninigDataBaseWindow(QMainWindow):
         field_layout.addStretch(1)
         radioButtons_layout.addStretch(1)
         main_layout.addStretch(1)
-        
 
+class ToolsWindow(QMainWindow):
+    
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
+    
+    def setupUI(self):
+        pass
 
 
 
