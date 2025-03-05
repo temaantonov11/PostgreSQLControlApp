@@ -1,17 +1,19 @@
 from databaseAPI import *
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox, QTableWidgetItem, QTableWidget
+from queue import LifoQueue
 from coreGUI import interface
 
 class DBClient:
     
     def __init__(self):
         self.app = QApplication(sys.argv)
-
+        self.stack = LifoQueue()
         self.StartWindow = interface.StartWindow()
         self.OpenWindow = interface.OpeninigDataBaseWindow()
         self.ToolsWindow = interface.ToolsWindow()
-        self.SeachWindow = interface.SearchWindow()
+        self.SearchWindow = interface.SearchWindow()
+        self.SearchResultWindow = interface.SearchResultWindow()
         self.DeleteWindow = interface.DeleteWindow()
         self.ClearWindow = interface.ClearWindow()
         self.InsertWindow = interface.InsertWindow()
@@ -26,12 +28,16 @@ class DBClient:
         self.ToolsWindow.insertButton.clicked.connect(self.InsertMenu_button_clicked)
         self.InsertWindow.back_button.clicked.connect(self.Back)
         self.InsertWindow.insert_button.clicked.connect(self.insert_button_clicked)
+        self.SearchWindow.search_button.clicked.connect(self.search_button_clicked)
+        self.SearchWindow.back_button.clicked.connect(self.Back)
+        self.SearchResultWindow.back_button.clicked.connect(self.Back)
 
         
     
     def run(self):
         self.StartWindow.show()
         self.currentWindow = self.StartWindow
+        self.stack.put(self.currentWindow)
         sys.exit(self.app.exec_())
         
 
@@ -66,9 +72,11 @@ class DBClient:
         self.Open(self.ToolsWindow)
 
     def Back(self):
-        self.currentWindow.hide()
-        self.previousWindow.show()
-        self.currentWindow = self.previousWindow
+        if self.stack.qsize() > 1:
+            self.currentWindow.hide()
+            self.stack.get()
+            self.currentWindow = self.stack.queue[-1]
+            self.currentWindow.show() 
 
     def insert_button_clicked(self):
         id = self.InsertWindow.id_field.text()
@@ -85,8 +93,26 @@ class DBClient:
         self.InsertWindow.year_field.clear()
         self.InsertWindow.color_field.clear()
 
+    def search_button_clicked(self):
+        brand = self.SearchWindow.nonkey_field.text()
+        if not brand:
+            QMessageBox.warning(self, "Field is empty.")
+            return
+        
+        result = self.db_client.search(brand)
+
+        self.SearchResultWindow.result_table.setRowCount(0)
+
+        for row_number, row_data in enumerate(result):
+            self.SearchResultWindow.result_table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.SearchResultWindow.result_table.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+
+        self.SearchWindow.nonkey_field.clear()
+        self.Open(self.SearchResultWindow)
+
     def SearchMenu_button_clicked(self):
-        self.Open(self.SeachWindow)
+        self.Open(self.SearchWindow)
 
     def DeleteMenu_button_clicked(self):
         self.Open(self.DeleteWindow)
@@ -95,17 +121,18 @@ class DBClient:
         self.Open(self.UpdateWindow)
 
     def ClearMenu_button_clicked(self):
-        self.Open(self.ClearWindow)
+        self.db_client.clearTable()
 
     def InsertMenu_button_clicked(self):
         self.Open(self.InsertWindow)
             
 
     def Open(self, Window):
-        Window.show()
-        self.currentWindow.hide()
-        self.previousWindow = self.currentWindow
-        self.currentWindow = Window        
+        if self.currentWindow:
+            self.currentWindow.hide()
+        self.currentWindow = Window
+        self.currentWindow.show()
+        self.stack.put(self.currentWindow)
 
 def main():
     client = DBClient()

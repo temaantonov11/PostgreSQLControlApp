@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel,
                              QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton,
-                             QCheckBox, QRadioButton, QButtonGroup, QLineEdit)
+                             QCheckBox, QRadioButton, QButtonGroup, QLineEdit, QTableWidget)
 from PyQt5.QtCore import Qt
 
 class StartWindow(QMainWindow):
@@ -184,9 +184,52 @@ class SearchWindow(QMainWindow):
         self.setupUI()
 
     def setupUI(self):
-        
         self.setWindowTitle("carDB")
         self.setGeometry(500, 200, 800, 500)
+
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        
+        main_layout = QVBoxLayout(central_widget)
+
+        self.nonkey_field = QLineEdit()
+
+        self.search_button = QPushButton("Search")
+        self.back_button = QPushButton("Back")
+
+        main_layout.addWidget(QLabel("Brand: "))
+        main_layout.addWidget(self.nonkey_field)
+        main_layout.addWidget(self.search_button)
+        main_layout.addWidget(self.back_button)
+
+        main_layout.addStretch(1)
+
+class SearchResultWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
+
+    def setupUI(self):
+        self.setWindowTitle("carDB: SearchResult")
+        self.setGeometry(500, 200, 800, 500)
+
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+
+        main_layout = QVBoxLayout(central_widget)
+
+        self.result_table = QTableWidget(self)
+        self.result_table.setColumnCount(5)
+        self.result_table.setHorizontalHeaderLabels(["ID", "Brand", "Model", "Year", "Color"])
+        
+        self.back_button = QPushButton("Back")
+
+        main_layout.addWidget(self.result_table)
+        main_layout.addWidget(self.back_button)
+        main_layout.addStretch(1)
+
+
+
 
 class DeleteWindow(QMainWindow):
 
@@ -242,7 +285,7 @@ class InsertWindow(QMainWindow):
         self.year_field = QLineEdit()
         self.color_field = QLineEdit()
 
-        self.insert_button = QPushButton("INSERT")
+        self.insert_button = QPushButton("Insert")
         self.back_button = QPushButton("Back")
 
         field_layout = QHBoxLayout()

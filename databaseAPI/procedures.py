@@ -30,3 +30,43 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 """
+
+search_by_brand = """
+CREATE OR REPLACE FUNCTION search(search_brand VARCHAR(20))
+RETURNS TABLE (
+    id INT,
+    brand VARCHAR(20),
+    model VARCHAR(20),
+    year INT,
+    color VARCHAR(20)) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT cars.id, cars.brand, cars.model, cars.year, cars.color
+    FROM cars
+    WHERE cars.brand = search_brand;
+END;
+$$ LANGUAGE plpgsql;
+"""
+
+clear_table_sql = """
+CREATE OR REPLACE FUNCTION clear_table()
+RETURNS void AS $$
+BEGIN
+    TRUNCATE TABLE cars;
+END;
+$$ LANGUAGE plpgsql;
+"""
+
+update_sql = """
+CREATE OR REPLACE FUNCTION update_tuple(
+    id INT,
+    brand VARCHAR(20),
+    model VARCHAR(20),
+    year INT,
+    color VARCHAR(20))
+RETURNS void AS $$
+BEGIN
+    UPDATE cars
+    SET 
+END;
+"""

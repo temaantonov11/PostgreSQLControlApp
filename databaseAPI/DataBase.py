@@ -85,6 +85,28 @@ class DataBase:
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed insert. \n {_ex}")
 
+    def clearTable(self):
+        try:
+            self.__cursor.execute(clear_table_sql)
+            self.__cursor.callproc("clear_table")
+            log.info("[POSTGRESQL]: Successful clear table.")
+
+        except psycopg2.Error as _ex:
+            log.error(f"[POSTGRESQL]: Failed clear table. \n {_ex}")
+    
+    def search(self, brand):
+        try:
+            self.__cursor.execute(search_by_brand)
+            self.__cursor.callproc("search", (brand, ))
+            result = self.__cursor.fetchall()
+            log.info("[POSTGRESQL]: Successfull search")
+            return result
+        except psycopg2.Error as _ex:
+            log.error(f"[POSTGRESQL]: Failed search.\n {_ex}")
+            return None
+
+
+
     def connect(self, db = dbname):
         try:
             self.__connection = psycopg2.connect(
