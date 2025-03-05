@@ -104,7 +104,18 @@ class DataBase:
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed search.\n {_ex}")
             return None
-
+    
+    def selectAll(self):
+        try:
+            self.__cursor.execute(selectall_sql)
+            self.__cursor.callproc("select_sql")
+            result = self.__cursor.fetchall()
+            log.info("[POSTGRESQL]: Successful select.")
+            return result
+        except psycopg2.Error as _ex:
+            log.error(f"[POSTGRESQL]: Select failed. \n {_ex}")
+            return None
+        
     def updateTable(self, id, brand, model, year, color):
         try:
             self.__cursor.execute(update_sql)

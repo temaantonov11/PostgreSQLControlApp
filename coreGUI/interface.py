@@ -299,13 +299,13 @@ class UpdateWindow(QMainWindow):
 
         field_layout.addWidget(QLabel("ID: "))
         field_layout.addWidget(self.id_field)
-        field_layout.addWidget(QLabel("BRAND: "))
+        field_layout.addWidget(QLabel("NEW BRAND: "))
         field_layout.addWidget(self.brand_field)
-        field_layout.addWidget(QLabel("MODEL: "))
+        field_layout.addWidget(QLabel("NEW MODEL: "))
         field_layout.addWidget(self.model_field)
-        field_layout.addWidget(QLabel("YEAR: "))
+        field_layout.addWidget(QLabel("NEW YEAR: "))
         field_layout.addWidget(self.year_field)
-        field_layout.addWidget(QLabel("COLOR: "))
+        field_layout.addWidget(QLabel("NEW COLOR: "))
         field_layout.addWidget(self.color_field)
 
         main_layout.addLayout(field_layout)

@@ -78,10 +78,19 @@ $$ LANGUAGE plpgsql;
 """
 
 delete_sql = """
-CREATE OR REPLACE FUNCTION delete_sql(del_brand INT)
+CREATE OR REPLACE FUNCTION delete_sql(del_brand VARCHAR(20))
 RETURNS VOID AS $$
 BEGIN
     DELETE FROM cars WHERE brand = del_brand;
+END;
+$$ LANGUAGE plpgsql;
+"""
+
+selectall_sql = """
+CREATE OR REPLACE FUNCTION select_sql()
+RETURNS VOID AS $$
+BEGIN
+    SELECT * FROM cars;
 END;
 $$ LANGUAGE plpgsql;
 """
