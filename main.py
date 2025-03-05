@@ -31,6 +31,10 @@ class DBClient:
         self.SearchWindow.search_button.clicked.connect(self.search_button_clicked)
         self.SearchWindow.back_button.clicked.connect(self.Back)
         self.SearchResultWindow.back_button.clicked.connect(self.Back)
+        self.UpdateWindow.back_button.clicked.connect(self.Back)
+        self.UpdateWindow.update_button.clicked.connect(self.update_button_clicked)
+        self.DeleteWindow.delete_button.clicked.connect(self.delete_button_clicked)
+        self.DeleteWindow.back_button.clicked.connect(self.Back)
 
         
     
@@ -110,6 +114,30 @@ class DBClient:
 
         self.SearchWindow.nonkey_field.clear()
         self.Open(self.SearchResultWindow)
+    
+    def update_button_clicked(self):
+        
+        id = self.UpdateWindow.id_field.text()
+        brand = self.UpdateWindow.brand_field.text()
+        model = self.UpdateWindow.model_field.text()
+        year = self.UpdateWindow.year_field.text()
+        color = self.UpdateWindow.color_field.text()
+
+        self.db_client.updateTable(id, brand, model, year, color)
+
+        self.UpdateWindow.id_field.clear()
+        self.UpdateWindow.brand_field.clear()
+        self.UpdateWindow.model_field.clear()
+        self.UpdateWindow.year_field.clear()
+        self.UpdateWindow.color_field.clear()
+
+    def delete_button_clicked(self):
+        
+        brand = self.DeleteWindow.delete_field.text()
+
+        self.db_client.delete(brand)
+
+        self.DeleteWindow.delete_field.clear()
 
     def SearchMenu_button_clicked(self):
         self.Open(self.SearchWindow)

@@ -245,7 +245,7 @@ class DeleteWindow(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
-        main_layout = QVBoxLayout()
+        main_layout = QVBoxLayout(central_widget)
         
         self.delete_field = QLineEdit()
 
