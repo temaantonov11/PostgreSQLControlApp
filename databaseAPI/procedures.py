@@ -59,14 +59,20 @@ $$ LANGUAGE plpgsql;
 
 update_sql = """
 CREATE OR REPLACE FUNCTION update_tuple(
-    id INT,
-    brand VARCHAR(20),
-    model VARCHAR(20),
-    year INT,
-    color VARCHAR(20))
+    car_id INT,
+    new_brand VARCHAR(20),
+    new_model VARCHAR(20),
+    new_year INT,
+    new_color VARCHAR(20))
 RETURNS void AS $$
 BEGIN
     UPDATE cars
     SET 
+        brand = new_brand,
+        model = new_model,
+        year = new_year,
+        color = new_color
+    WHERE id = car_id;
 END;
+$$ LANGUAGE plpgsql;
 """

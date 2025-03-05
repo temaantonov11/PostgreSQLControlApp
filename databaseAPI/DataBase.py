@@ -99,13 +99,19 @@ class DataBase:
             self.__cursor.execute(search_by_brand)
             self.__cursor.callproc("search", (brand, ))
             result = self.__cursor.fetchall()
-            log.info("[POSTGRESQL]: Successfull search")
+            log.info("[POSTGRESQL]: Successful search.")
             return result
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed search.\n {_ex}")
             return None
 
-
+    def updateTable(self, id, brand, model, year, color):
+        try:
+            self.__cursor.execute(update_sql)
+            self.__cursor.callproc("update_tuple", (id, brand, model, year, color))
+            log.info("[POSTGRESQL]: Successful update table.")
+        except psycopg2.Error as _ex:
+            log.error(f"[POSTGRESQL]: Failed update table. \n {_ex}")
 
     def connect(self, db = dbname):
         try:
