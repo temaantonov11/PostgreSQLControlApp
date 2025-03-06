@@ -122,6 +122,8 @@ class OpeninigDataBaseWindow(QMainWindow):
         self.createDB_radio = QRadioButton("Create DB")
 
         self.start_button = QPushButton("Open DB")
+        self.drop_button = QPushButton("Drop DB")
+        self.back_button = QPushButton("Back")
 
         self.actionDB_group = QButtonGroup()
         self.actionDB_group.addButton(self.openDB_radio)
@@ -144,6 +146,8 @@ class OpeninigDataBaseWindow(QMainWindow):
         main_layout.addLayout(field_layout)
         main_layout.addLayout(radioButtons_layout)
         main_layout.addWidget(self.start_button)
+        main_layout.addWidget(self.drop_button)
+        main_layout.addWidget(self.back_button)
 
         field_layout.addStretch(1)
         radioButtons_layout.addStretch(1)
@@ -163,7 +167,9 @@ class ToolsWindow(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         
-        main_layout = QGridLayout(central_widget)
+        main_layout = QVBoxLayout(central_widget)
+
+        grid_layout = QGridLayout()
 
         self.searchButton = QPushButton("Search")
         self.deleteButton = QPushButton("Delete")
@@ -171,13 +177,19 @@ class ToolsWindow(QMainWindow):
         self.updateButton = QPushButton("Update")
         self.insertButton = QPushButton("Insert")
         self.selectButton = QPushButton("Select all")
+        
+        self.back_button = QPushButton("Back")
+        
+        grid_layout.addWidget(self.searchButton, 0, 0)
+        grid_layout.addWidget(self.deleteButton, 0, 1)
+        grid_layout.addWidget(self.clearButton, 1, 0)
+        grid_layout.addWidget(self.updateButton, 1, 1)
+        grid_layout.addWidget(self.insertButton, 2, 0)
+        grid_layout.addWidget(self.selectButton, 2, 1)
+        grid_layout.addWidget(self.back_button, 2, 2)
 
-        main_layout.addWidget(self.searchButton, 0, 0)
-        main_layout.addWidget(self.deleteButton, 0, 1)
-        main_layout.addWidget(self.clearButton, 1, 0)
-        main_layout.addWidget(self.updateButton, 1, 1)
-        main_layout.addWidget(self.insertButton, 2, 0)
-        main_layout.addWidget(self.selectButton, 2, 1)
+        main_layout.addLayout(grid_layout)
+        main_layout.addWidget(self.back_button)
 
 class SearchWindow(QMainWindow):
 

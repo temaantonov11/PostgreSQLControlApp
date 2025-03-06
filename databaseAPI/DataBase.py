@@ -4,7 +4,7 @@ from logger import *
 from .config import host, port, user, dbname, password
 from .procedures import *
 
-class DataBase:
+class PostgreSQLManager:
      
     def __init__(self, user=user, passwd=password):
         self.__user = user
@@ -13,7 +13,7 @@ class DataBase:
     def __del__(self):
         
         if self.__connection != None:
-            self.__disconnect()
+            self.disconnect()
     
 
     def initUser(self, username, role, passwd, status):
@@ -22,7 +22,7 @@ class DataBase:
                 self.connect(dbname)
                 self.__createUser(username, role, passwd)
                 self.__setRole(username, role)
-                self.__disconnect()
+                self.disconnect()
             if status == "LOGIN":
                 self.__user = username
                 self.__password = passwd
@@ -63,12 +63,24 @@ class DataBase:
         try:
             self.connect()
             self.__cursor.execute(psycopg2.sql.SQL("CREATE DATABASE {};").format(psycopg2.sql.Identifier(newDbName)))
-            self.__disconnect()
+            self.disconnect()
             self.connect(newDbName)
             log.info(f"[POSTGRESQL]: DB {newDbName} created.")
             self.__createTable()
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed create {newDbName} DB.\n {_ex}")
+
+    def dropDatabase(self, db):
+        
+        try:
+            self.connect(dbname)
+            self.__cursor.execute(psycopg2.sql.SQL("ALTER DATABASE {} CONNECTION LIMIT 0;").format(psycopg2.sql.Identifier(db)))
+            self.__cursor.execute(psycopg2.sql.SQL("DROP DATABASE IF EXISTS {};").format(psycopg2.sql.Identifier(db)))
+            log.info(f"[POSTGRESQL]: database {db} dropped.")
+        except psycopg2.Error as _ex:
+            log.error(f"[POSTGRESQL]: Failed drop database {db}. \n {_ex}")
+
+
 
     def __createTable(self):
         try:
@@ -80,7 +92,7 @@ class DataBase:
     def insert(self, id, brand, model, year, color):
         try:
             self.__cursor.execute(insert_sql)
-            self.__cursor.execute("SELECT insert_car(%s, %s, %s, %s, %s);", (id, brand, model, year, color))
+            self.__cursor.callproc("insert_car", (id, brand, model, year, color))
             log.info("[POSTGRESQL]: sucessfull insert")
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Failed insert. \n {_ex}")
@@ -115,7 +127,7 @@ class DataBase:
         except psycopg2.Error as _ex:
             log.error(f"[POSTGRESQL]: Select failed. \n {_ex}")
             return None
-        
+
     def updateTable(self, id, brand, model, year, color):
         try:
             self.__cursor.execute(update_sql)
@@ -147,7 +159,7 @@ class DataBase:
         except psycopg2.Error as _ex:
             log.error("[POSTGRESQL]: Connection error {}".format(_ex))
 
-    def __disconnect(self):
+    def disconnect(self):
         try:
             self.__connection.close()
             self.__cursor.close()

@@ -22,12 +22,15 @@ class DBClient:
 
         self.StartWindow.start_button.clicked.connect(self.login_button_clicked)
         self.OpenWindow.start_button.clicked.connect(self.openDB_button_clicked)
+        self.OpenWindow.drop_button.clicked.connect(self.dropDB_button_clicked)
+        self.OpenWindow.back_button.clicked.connect(self.Back)
         self.ToolsWindow.searchButton.clicked.connect(self.SearchMenu_button_clicked)
         self.ToolsWindow.deleteButton.clicked.connect(self.DeleteMenu_button_clicked)
         self.ToolsWindow.clearButton.clicked.connect(self.ClearMenu_button_clicked)
         self.ToolsWindow.updateButton.clicked.connect(self.UpdateMenu_button_clicked)
         self.ToolsWindow.insertButton.clicked.connect(self.InsertMenu_button_clicked)
         self.ToolsWindow.selectButton.clicked.connect(self.SelectMenu_button_clicked)
+        self.ToolsWindow.back_button.clicked.connect(self.ToolsBack)
         self.InsertWindow.back_button.clicked.connect(self.Back)
         self.InsertWindow.insert_button.clicked.connect(self.insert_button_clicked)
         self.SearchWindow.search_button.clicked.connect(self.search_button_clicked)
@@ -64,12 +67,11 @@ class DBClient:
         else:
             status = "REGISTRY"
 
-        self.db_client = DataBase()
+        self.db_client = PostgreSQLManager()
         self.db_client.initUser(username, role, password, status)
         self.Open(self.OpenWindow)
     
     def openDB_button_clicked(self):
-        
         nameDB = self.OpenWindow.nameDB_field.text()
 
         if self.OpenWindow.openDB_radio.isChecked():
@@ -78,6 +80,10 @@ class DBClient:
             self.db_client.createDataBase(nameDB)
 
         self.Open(self.ToolsWindow)
+    
+    def dropDB_button_clicked(self):
+        nameDB = self.OpenWindow.nameDB_field.text()
+        self.db_client.dropDatabase(nameDB)
 
     def Back(self):
         if self.stack.qsize() > 1:
@@ -170,6 +176,10 @@ class DBClient:
 
     def InsertMenu_button_clicked(self):
         self.Open(self.InsertWindow)
+
+    def ToolsBack(self):
+        self.db_client.disconnect()
+        self.Back()
             
 
     def Open(self, Window):
